@@ -1,0 +1,149 @@
+{
+  "$id": "drupalVideo_videoConnector",
+  "$schema": "https://schema.yext.com/config/km/connector/v3",
+  "displayName": "Drupal Video Connector",
+  "entityType": "drupalVideo_video",
+  "source": {
+    "sourceConfig": {
+      "apiPullConfig": {
+        "requestType": "GET",
+        "url": "${{drupalDomain}}/jsonapi/media/video",
+        "paginationControl": {
+          "cursorPagination": {
+            "cursor": "links.next.href",
+            "cursorType": "FULL_URL",
+            "detectCursorInHeader": false
+          }
+        },
+        "headers": {
+          "Accept": "application/vnd.api+json",
+          "Content-Type": "application/vnd.api+json"
+        },
+        "queryParams": {},
+        "dataFormat": "JSON"
+      }
+    },
+    "baseSelector": {
+      "type": "JSON",
+      "header": "Entity Container",
+      "path": "data"
+    },
+    "selectors": [
+      {
+        "type": "JSON",
+        "header": "Name",
+        "path": "attributes.name"
+      },
+      {
+        "type": "JSON",
+        "header": "Entity ID",
+        "path": "id"
+      },
+      {
+        "type": "JSON",
+        "header": "Created Date",
+        "path": "attributes.created"
+      },
+      {
+        "type": "JSON",
+        "header": "Landing Page URL",
+        "path": "relationships.field_media_video_file.data.id"
+      },
+      {
+        "type": "JSON",
+        "header": "Video URL",
+        "path": "relationships.field_media_video_file.data.id"
+      },
+      {
+        "type": "JSON",
+        "header": "Creator",
+        "path": "relationships.uid.data.id"
+      }
+    ]
+  },
+  "transforms": [
+    {
+      "extractText": {
+        "inputHeader": "Name",
+        "newColumnHeader": "Name - Formatted",
+        "extractOperation": "ALL_TEXT_BEFORE",
+        "extractFrom": "LAST_INSTANCE_MATCHING_TEXT",
+        "valueToFind": {
+          "plainText": {
+            "value": ".",
+            "ignoreCase": false
+          }
+        }
+      }
+    },
+    {
+      "extractText": {
+        "inputHeader": "Created Date",
+        "newColumnHeader": "Created Date - Formatted",
+        "extractOperation": "ALL_TEXT_BEFORE",
+        "extractFrom": "FIRST_INSTANCE_MATCHING_TEXT",
+        "valueToFind": {
+          "plainText": {
+            "value": "T",
+            "ignoreCase": false
+          }
+        }
+      }
+    },
+    {
+      "function": {
+        "inputHeaders": {
+          "headers": [
+            "Video URL",
+            "Landing Page URL"
+          ]
+        },
+        "plugin": "extractFileUrl",
+        "function": "extractFileUrl"
+      }
+    },
+    {
+      "function": {
+        "inputHeaders": {
+          "headers": [
+            "Creator"
+          ]
+        },
+        "plugin": "getUser",
+        "function": "getUser"
+      }
+    }
+  ],
+  "mappings": [
+    {
+      "field": "entityId",
+      "header": "Entity ID",
+      "subfieldPath": []
+    },
+    {
+      "field": "drupalVideo_videoURL",
+      "header": "Video URL",
+      "subfieldPath": []
+    },
+    {
+      "field": "drupalVideo_creator",
+      "header": "Creator",
+      "subfieldPath": []
+    },
+    {
+      "field": "name",
+      "header": "Name - Formatted",
+      "subfieldPath": []
+    },
+    {
+      "field": "drupalVideo_createdDate",
+      "header": "Created Date - Formatted",
+      "subfieldPath": []
+    },
+    {
+      "field": "landingPageUrl",
+      "header": "Landing Page URL",
+      "subfieldPath": []
+    }
+  ]
+}

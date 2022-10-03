@@ -1,0 +1,60 @@
+{
+  "$id": "drupalVideo_drupalVideo",
+  "$schema": "https://schema.yext.com/config/km/field-presentation/v1",
+  "entityType": "drupalVideo_video",
+  "displayName": "Drupal Video",
+  "presentationEntries": [
+    {
+      "displayName": "Content",
+      "entryType": "DIVIDER"
+    },
+    {
+      "displayName": "Core Information",
+      "entryType": "SECTION",
+      "fields": [
+        {
+          "id": "name",
+          "visibleOnAdd": true
+        },
+        {
+          "id": "entityId",
+          "visibleOnAdd": true
+        },
+        {
+          "id": "landingPageUrl"
+        }
+      ]
+    },
+    {
+      "displayName": "Drupal Video Fields",
+      "entryType": "SECTION",
+      "fields": [
+        {
+          "id": "drupalVideo_createdDate"
+        },
+        {
+          "id": "drupalVideo_creator"
+        },
+        {
+          "id": "drupalVideo_videoURL"
+        }
+      ]
+    },
+    {
+      "displayName": "Other",
+      "entryType": "DIVIDER"
+    },
+    {
+      "displayName": "Internal Use Only",
+      "entryType": "SECTION",
+      "fields": [
+        {
+          "id": "folder"
+        },
+        {
+          "id": "labels"
+        }
+      ]
+    }
+  ]
+}

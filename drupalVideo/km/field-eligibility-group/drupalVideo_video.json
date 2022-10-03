@@ -1,0 +1,13 @@
+{
+  "$id": "drupalVideo_video",
+  "$schema": "https://schema.yext.com/config/km/field-eligibility-group/v1",
+  "name": "Drupal Video",
+  "entityType": "drupalVideo_video",
+  "fields": [
+    "drupalVideo_createdDate",
+    "drupalVideo_creator",
+    "drupalVideo_videoURL",
+    "landingPageUrl"
+  ],
+  "required": []
+}

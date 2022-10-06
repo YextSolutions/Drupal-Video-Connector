@@ -98,7 +98,7 @@
             "Landing Page URL"
           ]
         },
-        "plugin": "extractFileUrl",
+        "plugin": "drupalVideo_extractFileUrl",
         "function": "extractFileUrl"
       }
     },
@@ -109,7 +109,7 @@
             "Creator"
           ]
         },
-        "plugin": "getUser",
+        "plugin": "drupalVideo_getUser",
         "function": "getUser"
       }
     }
@@ -145,5 +145,14 @@
       "header": "Landing Page URL",
       "subfieldPath": []
     }
-  ]
+  ],
+  "scheduleConfig": {
+    "customSchedule": {
+      "timeZone": "America/New_York",
+      "startDate": "2022-10-05",
+      "startTime": "00:00",
+      "frequencyType": "DAILY"
+    },
+    "runMode": "COMPREHENSIVE"
+  }
 }

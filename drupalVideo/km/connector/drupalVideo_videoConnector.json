@@ -7,7 +7,7 @@
     "sourceConfig": {
       "nativeSourceConfig": {
         "source": "drupal",
-        "operation": "fetchVideoMedia",
+        "operation": "fetchVideoMediaType",
         "inputs": {
           "drupalDomain": "${{drupalDomain}}"
           }

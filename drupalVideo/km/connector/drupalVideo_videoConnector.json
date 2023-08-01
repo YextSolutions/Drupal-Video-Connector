@@ -1,129 +1,135 @@
 {
-  "$id": "drupalVideo_videoConnector",
-  "$schema": "https://schema.yext.com/config/km/connector/v3",
-  "displayName": "Drupal Video Connector",
-  "entityType": "drupalVideo_video",
-  "source": {
-    "sourceConfig": {
-      "nativeSourceConfig": {
-        "source": "drupal",
-        "operation": "fetchVideoMediaType",
-        "inputs": {
-          "drupalDomain": "${{drupalDomain}}"
-          }
-        }
-    },
-    "selectors": [
-      {
-        "type": "JSON",
-        "header": "Name",
-        "path": "attributes.name"
-      },
-      {
-        "type": "JSON",
-        "header": "Entity ID",
-        "path": "id"
-      },
-      {
-        "type": "JSON",
-        "header": "Created Date",
-        "path": "attributes.created"
-      },
-      {
-        "type": "JSON",
-        "header": "Landing Page URL",
-        "path": "relationships.field_media_video_file.data.id"
-      },
-      {
-        "type": "JSON",
-        "header": "Video URL",
-        "path": "relationships.field_media_video_file.data.id"
-      },
-      {
-        "type": "JSON",
-        "header": "Creator",
-        "path": "relationships.uid.data.id"
-      }
-    ]
-  },
-  "transforms": [
-    {
-      "extractText": {
-        "inputHeader": "Created Date",
-        "newColumnHeader": "Created Date - Formatted",
-        "extractOperation": "ALL_TEXT_BEFORE",
-        "extractFrom": "FIRST_INSTANCE_MATCHING_TEXT",
-        "valueToFind": {
-          "plainText": {
-            "value": "T",
-            "ignoreCase": false
-          }
-        }
-      }
-    },
-    {
-      "function": {
-        "inputHeaders": {
-          "headers": [
-            "Video URL",
-            "Landing Page URL"
-          ]
+    "$id": "drupalVideo_videoConnector",
+    "$schema": "https://schema.yext.com/config/km/connector/v4",
+    "displayName": "Drupal Video Connector",
+    "entityTypes": [
+        "drupalVideo_video"
+    ],
+    "source": {
+        "sourceConfig": {
+            "nativeSourceConfig": {
+                "source": "drupal",
+                "operation": "fetchVideoMediaType",
+                "inputs": {
+                    "drupalDomain": "${{drupalDomain}}"
+                }
+            }
         },
-        "plugin": "drupalVideo_extractFileUrl",
-        "function": "extractFileUrl"
-      }
+        "selectors": [
+            {
+                "type": "JSON",
+                "header": "Name",
+                "path": "attributes.name"
+            },
+            {
+                "type": "JSON",
+                "header": "Entity ID",
+                "path": "id"
+            },
+            {
+                "type": "JSON",
+                "header": "Created Date",
+                "path": "attributes.created"
+            },
+            {
+                "type": "JSON",
+                "header": "Landing Page URL",
+                "path": "relationships.field_media_video_file.data.id"
+            },
+            {
+                "type": "JSON",
+                "header": "Video URL",
+                "path": "relationships.field_media_video_file.data.id"
+            },
+            {
+                "type": "JSON",
+                "header": "Creator",
+                "path": "relationships.uid.data.id"
+            }
+        ]
     },
-    {
-      "function": {
-        "inputHeaders": {
-          "headers": [
-            "Creator"
-          ]
+    "transforms": [
+        {
+            "extractText": {
+                "inputHeader": "Created Date",
+                "newColumnHeader": "Created Date - Formatted",
+                "extractOperation": "ALL_TEXT_BEFORE",
+                "extractFrom": "FIRST_INSTANCE_MATCHING_TEXT",
+                "valueToFind": {
+                    "plainText": {
+                        "value": "T",
+                        "ignoreCase": false
+                    }
+                }
+            }
         },
-        "plugin": "drupalVideo_getUser",
-        "function": "getUser"
-      }
+        {
+            "function": {
+                "inputHeaders": {
+                    "headers": [
+                        "Video URL",
+                        "Landing Page URL"
+                    ]
+                },
+                "plugin": "drupalVideo_extractFileUrl",
+                "function": "extractFileUrl"
+            }
+        },
+        {
+            "function": {
+                "inputHeaders": {
+                    "headers": [
+                        "Creator"
+                    ]
+                },
+                "plugin": "drupalVideo_getUser",
+                "function": "getUser"
+            }
+        }
+    ],
+    "mappings": [
+        {
+            "field": "entityId",
+            "header": "Entity ID",
+            "subfieldPath": []
+        },
+        {
+            "field": "drupalVideo_videoURL",
+            "header": "Video URL",
+            "subfieldPath": []
+        },
+        {
+            "field": "drupalVideo_creator",
+            "header": "Creator",
+            "subfieldPath": []
+        },
+        {
+            "field": "name",
+            "header": "Name",
+            "subfieldPath": []
+        },
+        {
+            "field": "drupalVideo_createdDate",
+            "header": "Created Date - Formatted",
+            "subfieldPath": []
+        },
+        {
+            "field": "landingPageUrl",
+            "header": "Landing Page URL",
+            "subfieldPath": []
+        }
+    ],
+    "scheduleConfig": {
+        "customSchedule": {
+            "timeZone": "America/New_York",
+            "startDate": "2022-10-05",
+            "startTime": "00:00",
+            "frequencyType": "DAILY"
+        },
+        "runMode": "COMPREHENSIVE"
+    },
+    "comprehensiveModeConfig": {
+        "comprehensiveSet": "ENTITIES_CREATED_BY_THIS_CONNECTOR",
+        "actionOnMissingEntities": "DELETE"
     }
-  ],
-  "mappings": [
-    {
-      "field": "entityId",
-      "header": "Entity ID",
-      "subfieldPath": []
-    },
-    {
-      "field": "drupalVideo_videoURL",
-      "header": "Video URL",
-      "subfieldPath": []
-    },
-    {
-      "field": "drupalVideo_creator",
-      "header": "Creator",
-      "subfieldPath": []
-    },
-    {
-      "field": "name",
-      "header": "Name",
-      "subfieldPath": []
-    },
-    {
-      "field": "drupalVideo_createdDate",
-      "header": "Created Date - Formatted",
-      "subfieldPath": []
-    },
-    {
-      "field": "landingPageUrl",
-      "header": "Landing Page URL",
-      "subfieldPath": []
-    }
-  ],
-  "scheduleConfig": {
-    "customSchedule": {
-      "timeZone": "America/New_York",
-      "startDate": "2022-10-05",
-      "startTime": "00:00",
-      "frequencyType": "DAILY"
-    },
-    "runMode": "COMPREHENSIVE"
-  }
 }
